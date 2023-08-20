@@ -6,5 +6,5 @@ config :tap_tempo,
   ],
   queues: [
     {:web, :example_pool, order: 1, timeout: 10_000},
-    {:background, :example_pool, order: 2, timeout: 30_000},
+    {:background, :example_pool, order: 2, timeout: 30_000}
   ]
