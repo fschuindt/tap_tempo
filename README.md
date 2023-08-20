@@ -53,8 +53,26 @@ If your system ever gets close to the configured limit, executions will experien
 
 As long as the system is under the limit, all executions are not only eagerly evaluated, but also concurrent:
 ```elixir
-TapTempo.run(fn -> :time.sleep(1000); IO.puts("Slow function") end)
-TapTempo.run(fn -> IO.puts("Fast function") end)
+defmodule ConcurrencyExample do
+  def run do
+    spawn(fn ->
+      TapTempo.run(fn ->
+        :timer.sleep(1000)
+        IO.puts("Slow function")
+      end, :web)
+    end)
+
+    spawn(fn ->
+      TapTempo.run(fn ->
+        IO.puts("Fast function")
+      end, :web)
+    end)
+
+    :ok
+  end
+end
+
+ConcurrencyExample.run()
 
 # Fast function
 # Slow function
